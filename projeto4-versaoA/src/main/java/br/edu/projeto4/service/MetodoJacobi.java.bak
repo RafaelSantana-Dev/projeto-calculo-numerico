@@ -1,0 +1,157 @@
+package br.edu.projeto4.service;
+
+import br.edu.projeto4.model.CriterioParada;
+import br.edu.projeto4.model.SistemaLinear;
+import br.edu.projeto4.model.IteracaoSistemaLinear;
+import br.edu.projeto4.model.ResultadoSistemaLinear;
+import br.edu.projeto4.service.SessaoIterativaLinear;
+
+/**
+ * Implementação do método de Jacobi para sistemas lineares iterativos.
+ */
+public class MetodoJacobi implements SessaoIterativaLinear {
+
+    private final SistemaLinear sistema;
+    private final double tolerancia;
+    private final int maxIteracoes;
+    private final CriterioParada criterio;
+    private int iteracaoAtual;
+    private double[] x;
+    private double[] xAnterior;
+    private boolean convergiu;
+    private double erroAtual;
+    private double residuoAtual;
+
+    public MetodoJacobi(SistemaLinear sistema, double tolerancia, int maxIteracoes, CriterioParada criterio) {
+        this.sistema = sistema;
+        this.tolerancia = tolerancia;
+        this.maxIteracoes = maxIteracoes;
+        this.criterio = criterio;
+        this.iteracaoAtual = 0;
+        int n = sistema.getOrdem();
+        this.x = new double[n];
+        this.xAnterior = new double[n];
+        // Inicializa com zero
+        for (int i = 0; i < n; i++) {
+            x[i] = 0.0;
+            xAnterior[i] = 0.0;
+        }
+        this.convergiu = false;
+        this.erroAtual = 0.0;
+        this.residuoAtual = 0.0;
+    }
+
+    @Override
+    public boolean step() {
+        if (iteracaoAtual >= maxIteracoes || convergiu) {
+            return false;
+        }
+        iteracaoAtual++;
+        int n = sistema.getOrdem();
+        double[][] A = sistema.getA();
+        double[] b = sistema.getB();
+
+        // Jacobi: usar os valores da iteração anterior para calcular os novos
+        for (int i = 0; i < n; i++) {
+            double soma = b[i];
+            for (int j = 0; j < n; j++) {
+                if (j != i) {
+                    soma -= A[i][j] * xAnterior[j];
+                }
+            }
+            x[i] = soma / A[i][i];
+        }
+
+        // Calcula erro e resíduo
+        erroAtual = 0.0;
+        for (int i = 0; i < n; i++) {
+            double diff = Math.abs(x[i] - xAnterior[i]);
+            if (diff > erroAtual) {
+                erroAtual = diff;
+            }
+        }
+        // Resíduo ||Ax - b||∞
+        residuoAtual = 0.0;
+        for (int i = 0; i < n; i++) {
+            double somaAx = 0.0;
+            for (int j = 0; j < n; j++) {
+                somaAx += A[i][j] * x[j];
+            }
+            double residuoLinha = Math.abs(somaAx - b[i]);
+            if (residuoLinha > residuoAtual) {
+                residuoAtual = residuoLinha;
+            }
+        }
+
+        // Verifica convergência conforme critério
+        boolean crit1 = erroAtual < tolerancia;
+        boolean crit2 = residuoAtual < tolerancia;
+        switch (criterio) {
+            case DELTA_X:
+                convergiu = crit1;
+                break;
+            case RESIDUO:
+                convergiu = crit2;
+                break;
+            case AMBOS:
+                convergiu = crit1 && crit2;
+                break;
+        }
+
+        // Atualiza xAnterior para próxima iteração
+        System.arraycopy(x, 0, xAnterior, 0, n);
+
+        return true;
+    }
+
+    @Override
+    public boolean terminou() {
+        return iteracaoAtual >= maxIteracoes || convergiu;
+    }
+
+    @Override
+    public boolean convergiu() {
+        return convergiu;
+    }
+
+    @Override
+    public int getIteracaoAtual() {
+        return iteracaoAtual;
+    }
+
+    @Override
+    public double[] getSolucaoAtual() {
+        return x.clone();
+    }
+
+    @Override
+    public double getErroAtual() {
+        return erroAtual;
+    }
+
+    @Override
+    public double getResiduoAtual() {
+        return residuoAtual;
+    }
+
+    @Override
+    public IteracaoSistemaLinear getIteracaoResultado() {
+        return new IteracaoSistemaLinear(
+                iteracaoAtual,
+                x[0], x[1], x[2], x[3],
+                erroAtual,
+                residuoAtual
+        );
+    }
+
+    @Override
+    public ResultadoSistemaLinear getResultado() {
+        long tempo = System.nanoTime(); // Simplificado
+        return new ResultadoSistemaLinear(
+                x[0], x[1], x[2], x[3],
+                iteracaoAtual,
+                tempo,
+                convergiu
+        );
+    }
+}

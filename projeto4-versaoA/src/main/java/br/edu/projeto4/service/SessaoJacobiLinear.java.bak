@@ -1,0 +1,62 @@
+package br.edu.projeto4.service;
+
+import br.edu.projeto4.model.CriterioParada;
+import br.edu.projeto4.model.SistemaLinear;
+import br.edu.projeto4.model.IteracaoSistemaLinear;
+/**
+ * Wrapper para o método de Jacobi que implementa a interface SessaoIterativaLinear.
+ * Delegada para MetodoJacobi.
+ */
+public class SessaoJacobiLinear implements SessaoIterativaLinear {
+
+    private final MetodoJacobi metodo;
+
+    public SessaoJacobiLinear(SistemaLinear sistema, double tolerancia, int maxIteracoes, CriterioParada criterio) {
+        this.metodo = new MetodoJacobi(sistema, tolerancia, maxIteracoes, criterio);
+    }
+
+    @Override
+    public boolean step() {
+        return metodo.step();
+    }
+
+    @Override
+    public boolean terminou() {
+        return metodo.terminou();
+    }
+
+    @Override
+    public boolean convergiu() {
+        return metodo.convergiu();
+    }
+
+    @Override
+    public int getIteracaoAtual() {
+        return metodo.getIteracaoAtual();
+    }
+
+    @Override
+    public double[] getSolucaoAtual() {
+        return metodo.getSolucaoAtual();
+    }
+
+    @Override
+    public double getErroAtual() {
+        return metodo.getErroAtual();
+    }
+
+    @Override
+    public double getResiduoAtual() {
+        return metodo.getResiduoAtual();
+    }
+
+    @Override
+    public br.edu.projeto4.model.IteracaoSistemaLinear getIteracaoResultado() {
+        return metodo.getIteracaoResultado();
+    }
+
+    @Override
+    public br.edu.projeto4.model.ResultadoSistemaLinear getResultado() {
+        return metodo.getResultado();
+    }
+}

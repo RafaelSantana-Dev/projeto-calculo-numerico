@@ -126,11 +126,11 @@ src/main/
 
 | Nome do Aluno | GitHub |
 | :--- | :--- |
-| [Rafael de Santana Chaves] | [@RafaelSantana-Dev]([https://github.com/usuario-github-1](https://github.com/RafaelSantana-Dev)) |
-| [NOME COMPLETO DO ALUNO 2] | [@usuario-github-2](https://github.com/usuario-github-2) |
-| [NOME COMPLETO DO ALUNO 3] | [@usuario-github-3](https://github.com/usuario-github-3) |
-| [NOME COMPLETO DO ALUNO 4] | [@usuario-github-4](https://github.com/usuario-github-4) |
-| [NOME COMPLETO DO ALUNO 5] | [@usuario-github-5](https://github.com/usuario-github-5) |
+| Cesar Augusto Jorge Cantoia | [@cesarcantoia27](https://github.com/cesarcantoia27) |
+| Felipe Ventura Cassiolato | [@Felpz0kkj](https://github.com/Felpz0kkj) |
+| Kauan Dos Santos Silva | [@KssCyber](https://github.com/KssCyber) |
+| Pedro Argeri da Silva | [@ArgeriPedro](https://github.com/ArgeriPedro) |
+| Rafael de Santana Chaves | [@RafaelSantana-Dev](https://github.com/RafaelSantana-Dev) |
 
 ---
 *Este projeto foi desenvolvido como requisito avaliativo para a disciplina de Matemática Computacional Aplicada.*

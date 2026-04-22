@@ -1,6 +1,5 @@
 # ⚙️ Análise de Treliça com Métodos Numéricos
 
-![Java CI](https://github.com/SEU-USUARIO/SEU-REPOSITORIO/actions/workflows/ci.yml/badge.svg)
 ![Java](https://img.shields.io/badge/Java-17-blue?style=for-the-badge&logo=openjdk&logoColor=white)
 ![JavaFX](https://img.shields.io/badge/JavaFX-17-orange?style=for-the-badge&logo=openjfx&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-Build-red?style=for-the-badge&logo=apachemaven&logoColor=white)

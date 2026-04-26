@@ -1,8 +1,7 @@
 # ⚙️ Análise de Treliça com Métodos Numéricos
 
-![Java CI](https://github.com/SEU-USUARIO/SEU-REPOSITORIO/actions/workflows/ci.yml/badge.svg)
-![Java](https://img.shields.io/badge/Java-17-blue?style=for-the-badge&logo=openjdk&logoColor=white)
-![JavaFX](https://img.shields.io/badge/JavaFX-17-orange?style=for-the-badge&logo=openjfx&logoColor=white)
+![Java](https://img.shields.io/badge/Java-21-blue?style=for-the-badge&logo=openjdk&logoColor=white)
+![JavaFX](https://img.shields.io/badge/JavaFX-21-orange?style=for-the-badge&logo=openjfx&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-Build-red?style=for-the-badge&logo=apachemaven&logoColor=white)
 ![MVC](https://img.shields.io/badge/Arquitetura-MVC-brightgreen?style=for-the-badge)
 
@@ -67,8 +66,8 @@ O projeto visa resolver o sistema de equações lineares que representa o equil�
 
 | Tecnologia | Descrição |
 | :--- | :--- |
-| ☕ **Java 17** | Versão LTS da linguagem, com suporte a Records para DTOs imutáveis. |
-| 🎨 **JavaFX 17** | Framework para a construção da interface gráfica moderna e multiplataforma. |
+| ☕ **Java 21** | Versão LTS da linguagem, com suporte a Records para DTOs imutáveis. |
+| 🎨 **JavaFX 21** | Framework para a construção da interface gráfica moderna e multiplataforma. |
 | 📦 **Apache Maven** | Gerenciamento de dependências e automação do build do projeto. |
 | 🏛️ **Padrão MVC** | Arquitetura que promove a separação de responsabilidades e a manutenibilidade. |
 | 📈 **JavaFX Charts**| Componente nativo para a criação de gráficos de alta qualidade. |
@@ -78,14 +77,14 @@ O projeto visa resolver o sistema de equações lineares que representa o equil�
 ## 🚀 Como Executar o Projeto
 
 ### ✅ Pré-requisitos
-- **JDK (Java Development Kit)** - Versão 17 ou superior.
+- **JDK (Java Development Kit)** - Versão 21 ou superior.
 - **Apache Maven** - Versão 3.8.x ou superior, configurado na variável de ambiente `PATH`.
 - **Git** - Para clonar o repositório.
 
 ### 1️⃣ Clonar o Repositório
 ```bash
-git clone https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git
-cd SEU-REPOSITORIO
+git clone https://github.com/RafaelSantana-Dev/projeto-calculo-numerico.git
+cd projeto-calculo-numerico
 ```
 
 ### 2️⃣ Executar com Maven
@@ -127,11 +126,11 @@ src/main/
 
 | Nome do Aluno | GitHub |
 | :--- | :--- |
-| [NOME COMPLETO DO ALUNO 1] | [@usuario-github-1](https://github.com/usuario-github-1) |
-| [NOME COMPLETO DO ALUNO 2] | [@usuario-github-2](https://github.com/usuario-github-2) |
-| [NOME COMPLETO DO ALUNO 3] | [@usuario-github-3](https://github.com/usuario-github-3) |
-| [NOME COMPLETO DO ALUNO 4] | [@usuario-github-4](https://github.com/usuario-github-4) |
-| [NOME COMPLETO DO ALUNO 5] | [@usuario-github-5](https://github.com/usuario-github-5) |
+| Cesar Augusto Jorge Cantoia | [@cesarcantoia27](https://github.com/cesarcantoia27) |
+| Felipe Ventura Cassiolato | [@Felpz0kkj](https://github.com/Felpz0kkj) |
+| Kauan Dos Santos Silva | [@KssCyber](https://github.com/KssCyber) |
+| Pedro Argeri da Silva | [@ArgeriPedro](https://github.com/ArgeriPedro) |
+| Rafael de Santana Chaves | [@RafaelSantana-Dev](https://github.com/RafaelSantana-Dev) |
 
 ---
-*Este projeto foi desenvolvido como requisito avaliativo para a disciplina de Cálculo Numérico.*
+*Este projeto foi desenvolvido como requisito avaliativo para a disciplina de Matemática Computacional Aplicada.*

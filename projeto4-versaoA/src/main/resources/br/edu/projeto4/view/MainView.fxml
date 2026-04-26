@@ -1,139 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.ComboBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.projeto4.controller.MainController">
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="br.edu.projeto4.controller.MainController">
    <top>
       <ToolBar>
-         <Button fx:id="btnGerarRelatorio" text="Gerar Relatório" />
-         <Button fx:id="btnSalvarRelatorio" text="Salvar Relatório (.txt)" />
-         <Button fx:id="btnLimparResultados" text="Limpar Resultados" />
+         <Button fx:id="btnGerarRelatorio" text="Gerar Relatorio" onAction="#onGerarRelatorio" />
+         <Button fx:id="btnSalvarRelatorio" text="Salvar Relatorio (.txt)" onAction="#onSalvarRelatorio" />
+         <Button fx:id="btnLimparResultados" text="Limpar Resultados" onAction="#onLimparResultados" />
       </ToolBar>
    </top>
    <center>
       <TabPane fx:id="tabPane">
          <tabs>
-            <!-- PARTE 1: Sistema Linear -->
-            <Tab text="Parte 1 - Sistema Linear" fx:id="tabParte1">
+            <Tab text="Parte 1 - Sistema Linear" fx:id="tabParte1" closable="false">
                <content>
-                  <VBox spacing="10" padding="10">
+                  <VBox spacing="10" style="-fx-padding: 10;">
                      <HBox spacing="10">
-                        <Label text="Critério de parada:" />
-                        <ComboBox fx:id="cbCriterioParada" prefWidth="150" />
-                     </HBox>
-                     <HBox spacing="10">
-                        <Button fx:id="btnResetSL" text="Reset" />
-                        <Button fx:id="btnProximaIteracaoSL" text="Próxima iteração" />
-                        <Button fx:id="btnExportarCSLSL" text="Exportar Iterações CSV" />
+                        <Label text="Metodo iterativo:" />
+                        <ComboBox fx:id="cbCriterioParada" prefWidth="180" />
+                        <Label text="Tolerancia:" />
+                        <TextField fx:id="tolField" prefWidth="90" promptText="1e-5" />
+                        <Button fx:id="btnResolverGauss" text="Metodo Exato (Gauss)" onAction="#onResolverGauss" />
+                        <Button fx:id="btnResolverIterativo" text="Metodo Iterativo" onAction="#onResolverIterativo" />
                      </HBox>
                      <HBox spacing="20">
-                        <VBox>
-                           <Label text="Sistema Linear:" />
-                           <TextArea fx:id="sistemaTextArea" prefHeight="80" prefWidth="400" editable="false" wrapText="true" />
+                        <VBox spacing="6">
+                           <Label text="Sistema Linear 4x4:" />
+                           <TextArea fx:id="sistemaTextArea" prefHeight="110" prefWidth="500" editable="false" wrapText="true" />
                         </VBox>
-                        <VBox>
-                           <Label text="Solução:" />
+                        <VBox spacing="6">
+                           <Label text="Solucao atual:" />
                            <HBox spacing="10">
-                              <Label text="F1:" />
-                              <TextField fx:id="f1Field" prefWidth="80" editable="false" />
-                              <Label text="F2:" />
-                              <TextField fx:id="f2Field" prefWidth="80" editable="false" />
-                              <Label text="F3:" />
-                              <TextField fx:id="f3Field" prefWidth="80" editable="false" />
-                              <Label text="F4:" />
-                              <TextField fx:id="f4Field" prefWidth="80" editable="false" />
+                              <Label text="x1:" />
+                              <TextField fx:id="f1Field" prefWidth="90" editable="false" />
+                              <Label text="x2:" />
+                              <TextField fx:id="f2Field" prefWidth="90" editable="false" />
+                           </HBox>
+                           <HBox spacing="10">
+                              <Label text="x3:" />
+                              <TextField fx:id="f3Field" prefWidth="90" editable="false" />
+                              <Label text="x4:" />
+                              <TextField fx:id="f4Field" prefWidth="90" editable="false" />
                            </HBox>
                         </VBox>
                      </HBox>
                      <HBox spacing="10">
-                        <Label text="Tolerância:" />
-                        <TextField fx:id="tolField" prefWidth="80" promptText="1e-5" />
-                        <Label text="Iterações:" />
-                        <TextField fx:id="iteracoesField" prefWidth="60" editable="false" />
-                        <Label text="Erro Final:" />
-                        <TextField fx:id="erroFinalField" prefWidth="80" editable="false" />
+                        <Label text="Iteracoes:" />
+                        <TextField fx:id="iteracoesField" prefWidth="70" editable="false" />
+                        <Label text="Erro final:" />
+                        <TextField fx:id="erroFinalField" prefWidth="110" editable="false" />
                         <Label text="Tempo:" />
-                        <TextField fx:id="tempoField" prefWidth="60" editable="false" />
+                        <TextField fx:id="tempoField" prefWidth="90" editable="false" />
+                        <Button fx:id="btnResetSL" text="Reset" onAction="#onResetSistemaLinear" />
+                        <Button fx:id="btnExportarCSLSL" text="Exportar Iteracoes CSV" onAction="#onExportarSistemaLinearCsv" />
                      </HBox>
                      <HBox spacing="20">
-                        <VBox>
-                           <Label text="Tabela de iterações:" />
-                           <TableView fx:id="iteracoesTable" prefHeight="200">
+                        <VBox spacing="6">
+                           <Label text="Tabela de iteracoes:" />
+                           <TableView fx:id="iteracoesTable" prefHeight="230" prefWidth="430">
                               <columns>
-                                 <TableColumn fx:id="colK" text="k" prefWidth="30" />
-                                 <TableColumn fx:id="colF1" text="F1" prefWidth="60" />
-                                 <TableColumn fx:id="colF2" text="F2" prefWidth="60" />
-                                 <TableColumn fx:id="colF3" text="F3" prefWidth="60" />
-                                 <TableColumn fx:id="colF4" text="F4" prefWidth="60" />
-                                 <TableColumn fx:id="colErro" text="erro" prefWidth="60" />
+                                 <TableColumn fx:id="colK" text="k" prefWidth="45" />
+                                 <TableColumn fx:id="colF1" text="x1" prefWidth="70" />
+                                 <TableColumn fx:id="colF2" text="x2" prefWidth="70" />
+                                 <TableColumn fx:id="colF3" text="x3" prefWidth="70" />
+                                 <TableColumn fx:id="colF4" text="x4" prefWidth="70" />
+                                 <TableColumn fx:id="colErro" text="erro" prefWidth="90" />
                               </columns>
                            </TableView>
                         </VBox>
-                        <VBox>
-                           <Label text="Gráfico de convergência:" />
-                           <LineChart fx:id="convergenciaChart" prefWidth="400" prefHeight="200">
+                        <VBox spacing="6">
+                           <Label text="Grafico de convergencia:" />
+                           <LineChart fx:id="convergenciaChart" prefWidth="500" prefHeight="230">
                               <xAxis>
-                                 <NumberAxis fx:id="xAxis" label="Iteração (k)" />
+                                 <NumberAxis fx:id="xAxis" label="Iteracao (k)" />
                               </xAxis>
                               <yAxis>
-                                 <NumberAxis fx:id="yAxis" label="Erro Relativo (log)" />
+                                 <NumberAxis fx:id="yAxis" label="log10(erro)" />
                               </yAxis>
                            </LineChart>
                         </VBox>
                      </HBox>
-                     <HBox spacing="10">
-                        <Label fx:id="statusLabel" text="Status: " />
-                     </HBox>
+                     <Label fx:id="statusLabel" text="Status: aguardando calculo." />
                   </VBox>
                </content>
             </Tab>
 
-            <!-- PARTE 2: Raiz de Polinômio -->
-            <Tab text="Parte 2 - Raiz de Polinômio" fx:id="tabParte2">
+            <Tab text="Parte 2 - Raiz de Polinomio" fx:id="tabParte2" closable="false">
                <content>
-                  <VBox spacing="10" padding="10">
+                  <VBox spacing="10" style="-fx-padding: 10;">
                      <HBox spacing="10">
-                        <Button fx:id="btnResetRaiz" text="Reset" />
-                        <Button fx:id="btnProximaIteracaoRaiz" text="Próxima iteração" />
-                        <Button fx:id="btnExportarCSLRaiz" text="Exportar Iterações CSV" />
+                        <Button fx:id="btnResetRaiz" text="Calcular / Reset" onAction="#onCalcularRaiz" />
+                        <Button fx:id="btnExportarCSLRaiz" text="Exportar Iteracoes CSV" onAction="#onExportarRaizCsv" />
                      </HBox>
                      <HBox spacing="20">
-                        <VBox>
-                           <Label text="Tabela de iterações:" />
-                           <TableView fx:id="tabelaIteracoesRaiz" prefHeight="200">
+                        <VBox spacing="6">
+                           <Label text="f(w) = w^4 - 8w^3 + 18w^2 - 10w - 5, intervalo [3, 5], precisao 1e-7" />
+                           <TableView fx:id="tabelaIteracoesRaiz" prefHeight="260" prefWidth="520">
                               <columns>
-                                 <TableColumn fx:id="colKRaiz" text="k" prefWidth="30" />
-                                 <TableColumn fx:id="colARaiz" text="a" prefWidth="60" />
-                                 <TableColumn fx:id="colBRaiz" text="b" prefWidth="60" />
-                                 <TableColumn fx:id="colXRaiz" text="x" prefWidth="60" />
-                                 <TableColumn fx:id="colFXRaiz" text="f(x)" prefWidth="60" />
-                                 <TableColumn fx:id="colErroRaiz" text="erro" prefWidth="60" />
+                                 <TableColumn fx:id="colKRaiz" text="k" prefWidth="45" />
+                                 <TableColumn fx:id="colARaiz" text="a" prefWidth="80" />
+                                 <TableColumn fx:id="colBRaiz" text="b" prefWidth="80" />
+                                 <TableColumn fx:id="colXRaiz" text="x" prefWidth="90" />
+                                 <TableColumn fx:id="colFXRaiz" text="f(x)" prefWidth="110" />
+                                 <TableColumn fx:id="colErroRaiz" text="erro" prefWidth="100" />
                               </columns>
                            </TableView>
                         </VBox>
-                        <VBox>
-                           <Label text="Gráfico de erro por iteração:" />
-                           <LineChart fx:id="graficoErroRaiz" prefWidth="400" prefHeight="200">
+                        <VBox spacing="6">
+                           <Label text="Grafico de erro por iteracao:" />
+                           <LineChart fx:id="graficoErroRaiz" prefWidth="430" prefHeight="260">
                               <xAxis>
-                                 <NumberAxis label="Iteração (k)" />
+                                 <NumberAxis fx:id="xAxisRaiz" label="Iteracao (k)" />
                               </xAxis>
                               <yAxis>
-                                 <NumberAxis label="Erro" />
+                                 <NumberAxis fx:id="yAxisRaiz" label="Erro" />
                               </yAxis>
                            </LineChart>
                         </VBox>
@@ -146,82 +143,79 @@
                </content>
             </Tab>
 
-            <!-- PARTE 3: Integração e Derivação -->
-            <Tab text="Parte 3 - Integração e Derivação" fx:id="tabParte3">
+            <Tab text="Parte 3 - Integracao e Derivada" fx:id="tabParte3" closable="false">
                <content>
-                  <VBox spacing="10" padding="10">
+                  <VBox spacing="10" style="-fx-padding: 10;">
                      <HBox spacing="10">
-                        <Label text="n para Trapézios:" />
-                        <TextField fx:id="txtNTrapezios" promptText="n" prefWidth="60" />
-                        <Label text="n para Simpson:" />
-                        <TextField fx:id="txtNSimpson" promptText="n" prefWidth="60" />
-                        <Label text="h para derivada:" />
-                        <TextField fx:id="txtHDerivada" promptText="h" prefWidth="60" />
-                        <Button fx:id="btnCalcularIntegracao" text="Calcular" />
+                        <Label text="n Trapezios:" />
+                        <TextField fx:id="txtNTrapezios" promptText="100" prefWidth="70" />
+                        <Label text="n Simpson:" />
+                        <TextField fx:id="txtNSimpson" promptText="100" prefWidth="70" />
+                        <Label text="h derivada:" />
+                        <TextField fx:id="txtHDerivada" promptText="0.001" prefWidth="80" />
+                        <Button fx:id="btnCalcularIntegracao" text="Calcular" onAction="#onCalcularIntegracao" />
                      </HBox>
-                     <HBox spacing="20">
-                        <VBox>
+                     <HBox spacing="35">
+                        <VBox spacing="6">
                            <Label text="Resultados:" />
-                           <Label fx:id="lblIntegralTrapezios" text="Trapézios: " />
+                           <Label fx:id="lblIntegralTrapezios" text="Trapezios: " />
                            <Label fx:id="lblIntegralSimpson" text="Simpson: " />
                            <Label fx:id="lblDerivada" text="Derivada (t=5): " />
                         </VBox>
-                        <VBox>
+                        <VBox spacing="6">
                            <Label text="Erros absolutos:" />
-                           <Label fx:id="lblErroTrapezios" text="Trapézios: " />
+                           <Label fx:id="lblErroTrapezios" text="Trapezios: " />
                            <Label fx:id="lblErroSimpson" text="Simpson: " />
                            <Label fx:id="lblErroDerivada" text="Derivada: " />
                         </VBox>
                      </HBox>
                      <HBox spacing="10">
-                        <Button fx:id="btnExportarAmostrasCSV" text="Exportar Amostras i(t) CSV" />
-                        <Button fx:id="btnExportarConvergenciaCSV" text="Exportar Estudo Convergência CSV" />
+                        <Button fx:id="btnExportarAmostrasCSV" text="Exportar Amostras i(t) CSV" onAction="#onExportarAmostrasCsv" />
+                        <Button fx:id="btnExportarConvergenciaCSV" text="Exportar Estudo Convergencia CSV" onAction="#onExportarConvergenciaCsv" />
                      </HBox>
-                     <Label text="Estudo de Convergência (erro abs vs n):" />
-                     <LineChart fx:id="graficoConvergencia" prefWidth="600" prefHeight="300">
+                     <Label text="Estudo de convergencia (erro absoluto vs n):" />
+                     <LineChart fx:id="graficoConvergencia" prefWidth="720" prefHeight="300">
                         <xAxis>
-                           <NumberAxis label="n" />
+                           <NumberAxis fx:id="xAxisIntegracao" label="n" />
                         </xAxis>
                         <yAxis>
-                           <NumberAxis label="Erro absoluto" />
+                           <NumberAxis fx:id="yAxisIntegracao" label="Erro absoluto" />
                         </yAxis>
                      </LineChart>
                   </VBox>
                </content>
             </Tab>
 
-            <!-- PARTE 4: Vetores 3D -->
-            <Tab text="Parte 4 - Vetores 3D" fx:id="tabParte4">
+            <Tab text="Parte 4 - Vetores 3D" fx:id="tabParte4" closable="false">
                <content>
-                  <VBox spacing="10" padding="10">
+                  <VBox spacing="10" style="-fx-padding: 10;">
                      <Label fx:id="lblVetorAB" text="Vetor AB: " />
                      <Label fx:id="lblVetorAC" text="Vetor AC: " />
                      <Label fx:id="lblProdutoEscalar" text="Produto escalar: " />
-                     <Label fx:id="lblAngulo" text="Ângulo entre AB e AC: " />
-                     <Label fx:id="lblVetorNormal" text="Vetor normal (AB × AC): " />
-                     <Label fx:id="lblAreaTriangulo" text="Área do triângulo ABC: " />
+                     <Label fx:id="lblAngulo" text="Angulo entre AB e AC: " />
+                     <Label fx:id="lblVetorNormal" text="Vetor normal (AB x AC): " />
+                     <Label fx:id="lblAreaTriangulo" text="Area do triangulo ABC: " />
                   </VBox>
                </content>
             </Tab>
 
-            <!-- PARTE 5: Interpolação de Lagrange -->
-            <Tab text="Parte 5 - Interpolação de Lagrange" fx:id="tabParte5">
+            <Tab text="Parte 5 - Interpolacao" fx:id="tabParte5" closable="false">
                <content>
-                  <VBox spacing="10" padding="10">
-                     <Label fx:id="lblResultadoLagrange" text="Resultado da interpolação: " />
-                     <Label fx:id="lblEsperadoLagrange" text="Valor esperado: " />
+                  <VBox spacing="10" style="-fx-padding: 10;">
+                     <Label text="t = {0, 2, 4, 6}; altitude = {100, 115, 122, 118}; estimativa em t = 3" />
+                     <Label fx:id="lblResultadoLagrange" text="Resultado da interpolacao: " />
+                     <Label fx:id="lblEsperadoLagrange" text="Valor esperado: calculado pelo polinomio interpolador." />
                   </VBox>
                </content>
             </Tab>
 
-            <!-- ABA RELATÓRIO -->
-            <Tab text="Relatório" fx:id="tabRelatorio">
+            <Tab text="Relatorio" fx:id="tabRelatorio" closable="false">
                <content>
-                  <VBox spacing="10" padding="10">
-                     <TextArea fx:id="txtRelatorio" prefWidth="600" prefHeight="400" wrapText="true" />
+                  <VBox spacing="10" style="-fx-padding: 10;">
+                     <TextArea fx:id="txtRelatorio" prefWidth="900" prefHeight="470" wrapText="true" />
                      <HBox spacing="10">
-                        <Button fx:id="btnGerarRelatorio" text="Gerar/Atualizar" />
-                        <Button fx:id="btnSalvarRelatorio" text="Salvar (.txt)" />
+                        <Button fx:id="btnGerarRelatorioAba" text="Gerar / Atualizar" onAction="#onGerarRelatorio" />
+                        <Button fx:id="btnSalvarRelatorioAba" text="Salvar (.txt)" onAction="#onSalvarRelatorio" />
                      </HBox>
                   </VBox>
                </content>

@@ -9,6 +9,8 @@ import br.edu.projeto4.service.MetodoGaussSeidel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -28,6 +30,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 
 public class MainController {
 
@@ -97,6 +100,28 @@ public class MainController {
 
     @FXML private Label lblResultadoLagrange;
     @FXML private Label lblEsperadoLagrange;
+
+    // Parte 4 — novos elementos visuais
+    @FXML private TableView<LinhaVetor> tabelaVetores;
+    @FXML private TableColumn<LinhaVetor, String> colVetorNome;
+    @FXML private TableColumn<LinhaVetor, Double> colVetorX;
+    @FXML private TableColumn<LinhaVetor, Double> colVetorY;
+    @FXML private TableColumn<LinhaVetor, Double> colVetorZ;
+    @FXML private TableColumn<LinhaVetor, Double> colVetorNorma;
+    @FXML private BarChart<String, Number> graficoVetores;
+    @FXML private CategoryAxis xAxisVetores;
+    @FXML private NumberAxis yAxisVetores;
+
+    // Parte 5 — novos elementos visuais
+    @FXML private TableView<LinhaInterpolacao> tabelaInterpolacao;
+    @FXML private TableColumn<LinhaInterpolacao, Double> colInterpT;
+    @FXML private TableColumn<LinhaInterpolacao, Double> colInterpH;
+    @FXML private TableColumn<LinhaInterpolacao, Double> colInterpL;
+    @FXML private TableColumn<LinhaInterpolacao, Double> colInterpContrib;
+    @FXML private LineChart<Number, Number> graficoInterpolacao;
+    @FXML private NumberAxis xAxisInterp;
+    @FXML private NumberAxis yAxisInterp;
+
     @FXML private TextArea txtRelatorio;
 
     private final SistemaLinear sistema = new SistemaLinear(MATRIZ_A, VETOR_B);
@@ -118,6 +143,8 @@ public class MainController {
 
         configurarTabelaSistemaLinear();
         configurarTabelaRaiz();
+        configurarTabelaVetores();
+        configurarTabelaInterpolacao();
 
         onResolverGauss();
         onCalcularRaiz();
@@ -218,6 +245,10 @@ public class MainController {
         tabelaIteracoesRaiz.getItems().clear();
         graficoErroRaiz.getData().clear();
         graficoConvergencia.getData().clear();
+        tabelaVetores.getItems().clear();
+        graficoVetores.getData().clear();
+        tabelaInterpolacao.getItems().clear();
+        graficoInterpolacao.getData().clear();
         txtRelatorio.clear();
         statusLabel.setText("Status: resultados limpos.");
     }
@@ -252,6 +283,28 @@ public class MainController {
             linhas.add(String.format("%d,%.12f", t, corrente(t)));
         }
         escreverArquivo(Path.of("exports", "amostras-corrente.csv"), String.join(System.lineSeparator(), linhas));
+    }
+
+    @FXML
+    private void onExportarVetoresCsv() {
+        List<String> linhas = new ArrayList<>();
+        linhas.add("vetor,x,y,z,norma");
+        for (LinhaVetor v : tabelaVetores.getItems()) {
+            linhas.add(String.format("%s,%.12f,%.12f,%.12f,%.12f",
+                v.nome(), v.x(), v.y(), v.z(), v.norma()));
+        }
+        escreverArquivo(Path.of("exports", "vetores-3d.csv"), String.join(System.lineSeparator(), linhas));
+    }
+
+    @FXML
+    private void onExportarInterpolacaoCsv() {
+        List<String> linhas = new ArrayList<>();
+        linhas.add("t_i,h(t_i),L_i(3),contribuicao");
+        for (LinhaInterpolacao l : tabelaInterpolacao.getItems()) {
+            linhas.add(String.format("%.12f,%.12f,%.12f,%.12f",
+                l.ti(), l.hi(), l.li(), l.contrib()));
+        }
+        escreverArquivo(Path.of("exports", "interpolacao-lagrange.csv"), String.join(System.lineSeparator(), linhas));
     }
 
     @FXML
@@ -376,25 +429,83 @@ public class MainController {
         double[] c = {1, 3, 0.2};
         double[] ab = subtrair(b, a);
         double[] ac = subtrair(c, a);
-        double produtoEscalar = produtoEscalar(ab, ac);
         double[] normal = produtoVetorial(ab, ac);
-        double angulo = Math.toDegrees(Math.acos(produtoEscalar / (norma(ab) * norma(ac))));
+        double prodEscalar = produtoEscalar(ab, ac);
+        double angulo = Math.toDegrees(Math.acos(prodEscalar / (norma(ab) * norma(ac))));
         double area = norma(normal) / 2.0;
 
         lblVetorAB.setText("Vetor AB: " + formatarVetor(ab));
         lblVetorAC.setText("Vetor AC: " + formatarVetor(ac));
-        lblProdutoEscalar.setText(String.format("Produto escalar: %.6f", produtoEscalar));
-        lblAngulo.setText(String.format("Angulo entre AB e AC: %.6f graus", angulo));
+        lblProdutoEscalar.setText(String.format("Produto escalar AB·AC: %.6f", prodEscalar));
+        lblAngulo.setText(String.format("Angulo entre AB e AC: %.4f graus", angulo));
         lblVetorNormal.setText("Vetor normal (AB x AC): " + formatarVetor(normal));
-        lblAreaTriangulo.setText(String.format("Area do triangulo ABC: %.6f", area));
+        lblAreaTriangulo.setText(String.format("Area do triangulo ABC: %.6f unidades²", area));
+
+        // Tabela de componentes
+        tabelaVetores.setItems(FXCollections.observableArrayList(
+            new LinhaVetor("AB",     ab[0],     ab[1],     ab[2],     norma(ab)),
+            new LinhaVetor("AC",     ac[0],     ac[1],     ac[2],     norma(ac)),
+            new LinhaVetor("Normal", normal[0], normal[1], normal[2], norma(normal))
+        ));
+
+        // Gráfico de barras — componentes por vetor
+        graficoVetores.getData().clear();
+        String[] comps = {"x", "y", "z"};
+        double[][] vals = {ab, ac, normal};
+        String[] nomes = {"AB", "AC", "Normal (AB×AC)"};
+        for (int s = 0; s < 3; s++) {
+            XYChart.Series<String, Number> serie = new XYChart.Series<>();
+            serie.setName(nomes[s]);
+            for (int i = 0; i < 3; i++) {
+                serie.getData().add(new XYChart.Data<>(comps[i], vals[s][i]));
+            }
+            graficoVetores.getData().add(serie);
+        }
     }
 
     private void calcularInterpolacao() {
         double[] t = {0, 2, 4, 6};
         double[] altitude = {100, 115, 122, 118};
-        double estimativa = new InterpolacaoLagrange().interpolar(t, altitude, 3);
-        lblResultadoLagrange.setText(String.format("Resultado da interpolacao: altitude(3) = %.6f", estimativa));
-        lblEsperadoLagrange.setText("Valor esperado: obtido por Lagrange com os quatro pontos informados.");
+        double xAlvo = 3.0;
+        InterpolacaoLagrange lag = new InterpolacaoLagrange();
+
+        // Tabela com bases de Lagrange
+        List<LinhaInterpolacao> linhas = new ArrayList<>();
+        double soma = 0;
+        for (int i = 0; i < t.length; i++) {
+            double li = 1.0;
+            for (int j = 0; j < t.length; j++) {
+                if (i != j) li *= (xAlvo - t[j]) / (t[i] - t[j]);
+            }
+            double contrib = altitude[i] * li;
+            soma += contrib;
+            linhas.add(new LinhaInterpolacao(t[i], altitude[i], li, contrib));
+        }
+        tabelaInterpolacao.setItems(FXCollections.observableArrayList(linhas));
+
+        lblResultadoLagrange.setText(String.format("altitude(t=3) = %.4f m", soma));
+        lblEsperadoLagrange.setText("Interpolado pelo polinomio de Lagrange grau 3 com 4 pontos GPS.");
+
+        // Gráfico — curva suave do polinômio
+        graficoInterpolacao.getData().clear();
+
+        XYChart.Series<Number, Number> serieCurva = new XYChart.Series<>();
+        serieCurva.setName("Polinomio de Lagrange");
+        for (double ti = -0.2; ti <= 6.2; ti += 0.05) {
+            serieCurva.getData().add(new XYChart.Data<>(ti, lag.interpolar(t, altitude, ti)));
+        }
+
+        XYChart.Series<Number, Number> serieDados = new XYChart.Series<>();
+        serieDados.setName("Dados GPS medidos");
+        for (int i = 0; i < t.length; i++) {
+            serieDados.getData().add(new XYChart.Data<>(t[i], altitude[i]));
+        }
+
+        XYChart.Series<Number, Number> serieEstimativa = new XYChart.Series<>();
+        serieEstimativa.setName(String.format("Estimativa t=3 (%.2f m)", soma));
+        serieEstimativa.getData().add(new XYChart.Data<>(xAlvo, soma));
+
+        graficoInterpolacao.getData().addAll(serieCurva, serieDados, serieEstimativa);
     }
 
     private void gerarRelatorio(boolean abrirAba) {
@@ -555,6 +666,24 @@ public class MainController {
         return String.format("%.1e", valor);
     }
 
-    private record IteracaoRaiz(int k, double a, double b, double x, double fx, double erro) {
+    private void configurarTabelaVetores() {
+        colVetorNome.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().nome()));
+        colVetorX.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().x()));
+        colVetorY.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().y()));
+        colVetorZ.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().z()));
+        colVetorNorma.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().norma()));
     }
+
+    private void configurarTabelaInterpolacao() {
+        colInterpT.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().ti()));
+        colInterpH.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().hi()));
+        colInterpL.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().li()));
+        colInterpContrib.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().contrib()));
+    }
+
+    private record IteracaoRaiz(int k, double a, double b, double x, double fx, double erro) {}
+
+    private record LinhaVetor(String nome, double x, double y, double z, double norma) {}
+
+    private record LinhaInterpolacao(double ti, double hi, double li, double contrib) {}
 }

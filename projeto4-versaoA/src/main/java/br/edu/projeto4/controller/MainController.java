@@ -400,15 +400,14 @@ public class MainController {
         }
 
         List<IteracaoRaiz> iteracoes = new ArrayList<>();
-        double erro = Math.abs(b - a);
         int k = 0;
-        while (erro > tolerancia) {
+        while (true) {
             double x = (a + b) / 2.0;
             double fx = polinomio(x);
-            erro = Math.abs(b - a) / 2.0;
+            double erro = Math.abs(b - a) / 2.0;
             iteracoes.add(new IteracaoRaiz(k, a, b, x, fx, erro));
 
-            if (Math.abs(fx) <= tolerancia) {
+            if (erro < tolerancia) {
                 break;
             }
             if (fa * fx < 0) {

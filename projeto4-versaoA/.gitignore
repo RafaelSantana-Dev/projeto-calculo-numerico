@@ -9,6 +9,13 @@
 *.iml
 .vscode/
 
+# Pastas específicas de ferramentas de IA
+.claude/
+
+# Arquivos de backup
+*.bak
+*.backup
+
 # Arquivos do sistema operacional
 .DS_Store
 Thumbs.db

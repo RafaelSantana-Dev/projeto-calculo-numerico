@@ -1,207 +1,220 @@
+<div align="center">
+
 # 🤖 Projeto 4 — Otimização de Sistemas Inteligentes e IA
 
-![Java](https://img.shields.io/badge/Java-21-blue?style=for-the-badge&logo=openjdk&logoColor=white)
-![JavaFX](https://img.shields.io/badge/JavaFX-17-orange?style=for-the-badge)
-![Maven](https://img.shields.io/badge/Maven-Build-red?style=for-the-badge&logo=apachemaven&logoColor=white)
-![MVC](https://img.shields.io/badge/Arquitetura-MVC-brightgreen?style=for-the-badge)
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-21-blue?style=for-the-badge&logo=openjdk&logoColor=white"/>
+  <img src="https://img.shields.io/badge/JavaFX-17.0.6-orange?style=for-the-badge&logo=java&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Maven-3.8.1-red?style=for-the-badge&logo=apachemaven&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Arquitetura-MVC-brightgreen?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Status-Concluído-success?style=for-the-badge"/>
+</p>
 
-Aplicação desktop desenvolvida em **Java 21** com **JavaFX 17**, utilizando **Maven**, para a disciplina de **Matemática Computacional Aplicada**.
+<p align="center">
+  <strong>Aplicação desktop em Java 21 + JavaFX 17 com métodos numéricos aplicados a um firmware de drone autônomo</strong>
+</p>
 
-O projeto implementa métodos numéricos aplicados ao contexto de um **firmware de drone autônomo**, responsável por inspeções em ambientes industriais. A aplicação resolve os cinco desafios propostos no **Projeto 4 — Versão A**, incluindo sistemas lineares, raízes de polinômios, integração numérica, derivação numérica, vetores no espaço e interpolação.
+<p align="center">
+  <a href="#-sobre-o-projeto">Sobre</a> •
+  <a href="#-métodos-implementados">Métodos</a> •
+  <a href="#-interface">Interface</a> •
+  <a href="#-resultados">Resultados</a> •
+  <a href="#-arquitetura">Arquitetura</a> •
+  <a href="#-como-executar">Como Executar</a> •
+  <a href="#-equipe">Equipe</a>
+</p>
 
-A interface foi construída com JavaFX e organizada em abas, permitindo executar cada parte do projeto separadamente, visualizar tabelas, gráficos, erros, resultados e exportar dados para arquivos CSV.
+</div>
 
 ---
 
-## 📌 Projeto Escolhido
+## 📌 Sobre o Projeto
 
 ```text
 Projeto 4 — Otimização de Sistemas Inteligentes e IA
 Versão A
 Unidade Curricular: Matemática Computacional Aplicada
+Avaliação: A3
 ```
 
-O cenário envolve um drone autônomo que precisa executar rotinas matemáticas para:
+Esta aplicação simula o **firmware matemático de um drone autônomo** de inspeção industrial. Cada parte do projeto resolve um desafio específico:
 
-- sincronizar tráfego de dados entre múltiplos núcleos de processamento;
-- otimizar um hiperparâmetro de rede neural;
-- calcular a carga consumida por um sensor LiDAR;
-- identificar a inclinação de um painel por visão computacional;
-- estimar altitude durante uma falha de sinal GPS.
+| # | Missão | Problema Matemático |
+|:-:|--------|---------------------|
+| 1 | Sincronizar tráfego de dados entre múltiplos núcleos de processamento | Sistema Linear 4×4 |
+| 2 | Otimizar um hiperparâmetro de rede neural embarcada | Raiz de Polinômio |
+| 3 | Calcular a carga consumida pelo sensor LiDAR | Integração + Derivação Numérica |
+| 4 | Identificar a inclinação de um painel por visão computacional | Vetores no Espaço 3D |
+| 5 | Estimar altitude durante falha de sinal GPS | Interpolação Polinomial |
 
 ---
 
 ## 🧠 Métodos Numéricos Implementados
 
-| Parte | Problema | Método |
-|---|---|---|
-| Parte 1 | Sistema linear 4x4 | Eliminação de Gauss + Gauss-Seidel |
-| Parte 2 | Raiz de polinômio | Bissecção |
-| Parte 3 | Integração e derivação | Trapézios + Simpson 1/3 + Diferença Central |
-| Parte 4 | Vetores 3D | Produto Escalar + Produto Vetorial |
-| Parte 5 | Interpolação | Lagrange |
+| Parte | Problema | Método(s) Utilizados |
+|:-----:|----------|----------------------|
+| **Parte 1** | Sistema linear 4×4 | Eliminação de Gauss com pivotamento + Gauss-Seidel iterativo |
+| **Parte 2** | Raiz de Polinômio | Método da Bissecção |
+| **Parte 3** | Integração e Derivação | Regra dos Trapézios + Simpson 1/3 + Diferença Central |
+| **Parte 4** | Vetores 3D | Produto Escalar + Produto Vetorial |
+| **Parte 5** | Interpolação | Lagrange |
 
 ---
 
 ## 🖥️ Interface da Aplicação
 
-A aplicação possui uma interface JavaFX dividida em abas:
+A interface foi construída em **JavaFX + FXML**, organizada em **seis abas** independentes:
 
-```text
-Parte 1 - Sistema Linear
-Parte 2 - Raiz de Polinômio
-Parte 3 - Integração e Derivada
-Parte 4 - Vetores 3D
-Parte 5 - Interpolação
-Relatório
+```
+┌─────────────────────────────────────────────────────────┐
+│  Parte 1      Parte 2      Parte 3      Parte 4      Parte 5      Relatório  │
+│  Sistema     Raiz de     Integração   Vetores 3D   Interpolação             │
+│  Linear      Polinômio   e Derivada                                         │
+└─────────────────────────────────────────────────────────┘
 ```
 
-Cada aba apresenta os dados do problema, botões de execução, tabelas, gráficos e resultados numéricos.
+### Funcionalidades por Aba
 
-A aplicação também permite:
+**Parte 1 — Sistema Linear**
+- Execução do Método Exato (Gauss) com resultado imediato
+- Execução do Método Iterativo (Gauss-Seidel) com histórico de iterações
+- Visualização da convergência por gráfico de erro relativo
+- Tabela com cada iteração e o erro correspondente
 
-- executar o método exato de Gauss;
-- executar o método iterativo de Gauss-Seidel;
-- visualizar histórico de iterações;
-- plotar gráficos de erro/convergência;
-- calcular raiz por bissecção;
-- comparar Trapézios e Simpson 1/3;
-- calcular derivada por diferença central;
-- calcular vetores, ângulo e área;
-- calcular interpolação por Lagrange;
-- exportar resultados em CSV;
-- gerar e salvar relatório em `.txt`.
+**Parte 2 — Raiz de Polinômio**
+- Visualização da função f(w) no intervalo definido
+- Tabela completa com todas as iterações da Bissecção
+- Gráfico do erro ao longo das iterações
+
+**Parte 3 — Integração e Derivada**
+- Comparação visual entre Trapézios e Simpson 1/3
+- Gráfico de convergência de erro conforme `n` aumenta
+- Cálculo da derivada numérica por Diferença Central
+- Ajuste dos parâmetros `n` e `h` diretamente na interface
+
+**Parte 4 — Vetores 3D**
+- Tabela com os componentes vetoriais AB e AC
+- Gráfico de barras comparando os valores dos componentes
+- Exibição de produto escalar, ângulo e área do triângulo
+
+**Parte 5 — Interpolação**
+- Tabela com as bases L₀, L₁, L₂, L₃ calculadas em t = 3
+- Contribuição ponderada de cada ponto
+- Gráfico com pontos medidos, curva interpolada e ponto estimado
+
+**Relatório**
+- Síntese textual automática de todos os resultados
+- Exportação para arquivo `.txt`
 
 ---
 
 ## 📊 Parte 1 — Sistema Linear
 
-### Sincronização de 4 núcleos de processamento
+### Sincronização de 4 Núcleos de Processamento
 
-O sistema modela a distribuição de pacotes por segundo entre quatro núcleos do firmware do drone.
+O sistema modela a **distribuição de pacotes por segundo** entre quatro núcleos do firmware do drone.
 
-Sistema utilizado:
+**Equações:**
 
-```text
-10x1 - 2x2 - x3        = 150
--2x1 + 12x2 - 2x3 - x4 = 200
--x1 - 2x2 + 15x3 - 3x4 = 100
--x2 - 3x3 + 10x4       = 50
+```
+10x₁ - 2x₂ - x₃            = 150
+-2x₁ + 12x₂ - 2x₃ - x₄    = 200
+ -x₁ - 2x₂ + 15x₃ - 3x₄   = 100
+        -x₂ - 3x₃ + 10x₄  =  50
 ```
 
-Forma matricial:
+**Forma Matricial `[A|b]`:**
 
-```text
-[ 10  -2  -1   0 ] [ x1 ]   [ 150 ]
-[ -2  12  -2  -1 ] [ x2 ] = [ 200 ]
-[ -1  -2  15  -3 ] [ x3 ]   [ 100 ]
-[  0  -1  -3  10 ] [ x4 ]   [  50 ]
+```
+⎡ 10  -2  -1   0 ⎤ ⎡ x₁ ⎤   ⎡ 150 ⎤
+⎢ -2  12  -2  -1 ⎥ ⎢ x₂ ⎥ = ⎢ 200 ⎥
+⎢ -1  -2  15  -3 ⎥ ⎢ x₃ ⎥   ⎢ 100 ⎥
+⎣  0  -1  -3  10 ⎦ ⎣ x₄ ⎦   ⎣  50 ⎦
 ```
 
-### Métodos utilizados
+> 💡 A matriz é **diagonalmente dominante**, garantindo convergência do Gauss-Seidel.
+
+### Métodos Utilizados
 
 - **Eliminação de Gauss** com pivotamento parcial;
 - **Gauss-Seidel** com critério de parada por erro relativo;
 - tolerância padrão: `1e-5`.
 
-### Resultado esperado
+### Resultado Esperado
 
-```text
-x1 ≈ 21,01775
-x2 ≈ 23,36024
-x3 ≈ 13,45719
-x4 ≈ 11,37318
 ```
-
-Interpretação: os núcleos devem processar aproximadamente `21,02`, `23,36`, `13,46` e `11,37` pacotes/s para equilibrar o tráfego do sistema embarcado.
+x₁ ≈ 21,01775   →  Núcleo 1: ~21,02 pacotes/s
+x₂ ≈ 23,36024   →  Núcleo 2: ~23,36 pacotes/s
+x₃ ≈ 13,45719   →  Núcleo 3: ~13,46 pacotes/s
+x₄ ≈ 11,37318   →  Núcleo 4: ~11,37 pacotes/s
+```
 
 ---
 
 ## 🧮 Parte 2 — Raiz de Polinômio
 
-### Otimização de hiperparâmetro da rede neural
+### Otimização de Hiperparâmetro da Rede Neural
 
 A função polinomial analisada é:
 
-```text
+```
 f(w) = w⁴ - 8w³ + 18w² - 10w - 5
 ```
 
-Intervalo:
+**Intervalo:** `[3, 5]`
 
-```text
-[3, 5]
-```
+**Precisão exigida:** `1e-7`
 
-Precisão exigida:
-
-```text
-1e-7
-```
-
-### Método utilizado
+### Método Utilizado
 
 Foi utilizado o **Método da Bissecção**, com validação inicial por troca de sinal:
 
-```text
+```
 f(3) = -8
 f(5) = 20
 ```
 
 Como há troca de sinal, existe raiz no intervalo.
 
-### Resultado esperado
+### Resultado Esperado
 
-```text
+```
 w ≈ 4,6279018521
 erro final < 1e-7
 ```
-
-A interface exibe todas as iterações em tabela e também plota o erro ao longo do processo.
 
 ---
 
 ## ⚡ Parte 3 — Integração e Derivação Numérica
 
-### Consumo energético do sensor LiDAR
+### Consumo Energético do Sensor LiDAR
 
 A corrente consumida pelo sensor é modelada por:
 
-```text
+```
 i(t) = -0,1t⁴ + 2t³ - 8t² + 15t + 50
 ```
 
-O objetivo é calcular:
+**Objetivo:** Calcular `Q = ∫₀¹⁰ i(t) dt` e a taxa instantânea em `t = 5s`.
 
-```text
-Q = ∫₀¹⁰ i(t) dt
-```
-
-e também a taxa instantânea da corrente em:
-
-```text
-t = 5s
-```
-
-### Métodos utilizados
+### Métodos Utilizados
 
 - Regra dos Trapézios;
 - Regra de Simpson 1/3;
 - Diferença Central para derivada numérica.
 
-### Valores padrão da aplicação
+### Valores Padrão da Aplicação
 
-```text
-n Trapézios = 100
-n Simpson   = 100
-h derivada  = 0.001
+```
+n (Trapézios) = 100
+n (Simpson)   = 100
+h (derivada) = 0.001
 ```
 
-### Resultados esperados
+### Resultados Esperados
 
-```text
+```
 Q exato ≈ 1583,3333 C
-
 Trapézios   ≈ 1583,3667 C
 Simpson 1/3 ≈ 1583,3333 C
 
@@ -214,48 +227,30 @@ A aplicação também compara graficamente os erros de Trapézios e Simpson conf
 
 ## 📐 Parte 4 — Vetores 3D
 
-### Inclinação de painel solar por visão computacional
+### Inclinação de Painel Solar por Visão Computacional
 
-Pontos utilizados:
-
-```text
+**Pontos Utilizados:**
+```
 A = (0, 0, 0)
 B = (2, 1, 0.5)
 C = (1, 3, 0.2)
 ```
 
-A aplicação calcula:
-
-- vetor AB;
-- vetor AC;
-- produto escalar;
-- ângulo entre os vetores;
-- vetor normal por produto vetorial;
-- área do triângulo formado pelos pontos.
-
-### Resultados esperados
-
-```text
-AB = (2, 1, 0.5)
-AC = (1, 3, 0.2)
-
-AB · AC = 5,1
-ângulo ≈ 45,3750°
-
-AB × AC = (-1,3 ; 0,1 ; 5,0)
-área ≈ 2,5836 unidades²
-```
-
-A interface também exibe uma tabela com os componentes vetoriais e um gráfico de barras comparando os valores.
+**Cálculos Realizados:**
+- Vetor AB = (2, 1, 0.5)
+- Vetor AC = (1, 3, 0.2)
+- Produto escalar AB·AC = 5,1
+- Ângulo entre os vetores ≈ 45,3750°
+- Produto vetorial AB×AC = (-1,3 ; 0,1 ; 5,0)
+- Área do triângulo = 2,5836 unidades²
 
 ---
 
 ## 🛰️ Parte 5 — Interpolação de Lagrange
 
-### Recuperação de altitude em falha de GPS
+### Recuperação de Altitude em Falha de GPS
 
-Leituras disponíveis:
-
+**Leituras Disponíveis:**
 | Tempo t (s) | Altitude h(t) (m) |
 |---:|---:|
 | 0 | 100 |
@@ -263,37 +258,16 @@ Leituras disponíveis:
 | 4 | 122 |
 | 6 | 118 |
 
-Objetivo:
+**Objetivo:** Estimar h(3).
 
-```text
-Estimar h(3)
-```
-
-### Método utilizado
-
-Foi aplicada a **Interpolação Polinomial de Lagrange** com os quatro pontos disponíveis.
-
-### Resultado esperado
-
-```text
-h(3) ≈ 119,6875 m
-```
-
-A aplicação apresenta:
-
-- tabela com cada base `Li(3)`;
-- contribuição de cada ponto;
-- gráfico com os pontos medidos;
-- curva interpolada;
-- ponto estimado em `t = 3s`.
+**Resultado Esperado:** `h(3) ≈ 119,6875 m`
 
 ---
 
 ## 📤 Exportações Disponíveis
 
 A aplicação possui botões para exportar arquivos CSV com os resultados calculados:
-
-```text
+```
 exports/sistema-linear-iteracoes.csv
 exports/raiz-bissecao-iteracoes.csv
 exports/amostras-corrente.csv
@@ -303,8 +277,7 @@ exports/interpolacao-lagrange.csv
 ```
 
 Também é possível gerar um relatório textual:
-
-```text
+```
 relatorio-projeto4-versaoA.txt
 ```
 
@@ -313,42 +286,19 @@ relatorio-projeto4-versaoA.txt
 ## 🏗️ Arquitetura do Projeto
 
 O projeto segue a organização em camadas, baseada no padrão **MVC**.
-
-```text
+```
 projeto4-versaoA/
 ├── pom.xml
 ├── README.md
 └── src/
     └── main/
         ├── java/
-        │   └── br/
-        │       └── edu/
-        │           └── projeto4/
-        │               ├── MainApp.java
-        │               ├── controller/
-        │               │   └── MainController.java
-        │               ├── model/
-        │               │   ├── CriterioParada.java
-        │               │   ├── IteracaoSistemaLinear.java
-        │               │   ├── PontoErroIntegracao.java
-        │               │   ├── ResultadoDerivada.java
-        │               │   ├── ResultadoIntegral.java
-        │               │   ├── ResultadoMetodo.java
-        │               │   ├── ResultadoSistemaLinear.java
-        │               │   └── SistemaLinear.java
-        │               └── service/
-        │                   ├── InterpolacaoLagrange.java
-        │                   ├── MetodoGauss.java
-        │                   ├── MetodoGaussSeidel.java
-        │                   ├── MetodoJacobi.java
-        │                   ├── SessaoIterativaLinear.java
-        │                   └── VerificadorConvergencia.java
-        └── resources/
-            └── br/
-                └── edu/
-                    └── projeto4/
-                        └── view/
-                            └── MainView.fxml
+        │   └── br/edu/projeto4/
+        │       ├── MainApp.java
+        │       ├── controller/MainController.java
+        │       ├── model/…
+        │       └── service/…
+        └── resources/…
 ```
 
 ---
@@ -387,31 +337,26 @@ projeto4-versaoA/
 ## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
-
 - JDK 21 ou superior;
 - Apache Maven instalado;
 - Git instalado.
 
 ### Clonar o repositório
-
 ```bash
 git clone https://github.com/RafaelSantana-Dev/projeto-calculo-numerico.git
 ```
 
 ### Acessar a pasta do projeto
-
 ```bash
 cd projeto-calculo-numerico/projeto4-versaoA
 ```
 
 ### Executar com Maven
-
 ```bash
 mvn clean javafx:run
 ```
 
 Se estiver fora da pasta do projeto, também é possível executar apontando para o `pom.xml`:
-
 ```bash
 mvn -f caminho/para/projeto4-versaoA/pom.xml clean javafx:run
 ```
@@ -421,7 +366,6 @@ mvn -f caminho/para/projeto4-versaoA/pom.xml clean javafx:run
 ## 🧪 Como Usar
 
 Ao abrir a aplicação:
-
 1. A aba **Parte 1 - Sistema Linear** carrega o sistema do Projeto 4A.
 2. Clique em **Método Exato (Gauss)** para resolver diretamente.
 3. Clique em **Método Iterativo** para executar Gauss-Seidel e visualizar as iterações.
@@ -448,8 +392,7 @@ Ao abrir a aplicação:
 
 ## 🎯 Objetivo Acadêmico
 
-O objetivo do projeto é aplicar métodos numéricos estudados na disciplina em um problema realista de engenharia e tecnologia, analisando:
-
+O objetivo do projeto é aplicar métodos numéricos estudados na disciplina em um problema realista de engenharia, analisando:
 - precisão dos resultados;
 - convergência dos métodos;
 - eficiência computacional;
@@ -461,7 +404,7 @@ O objetivo do projeto é aplicar métodos numéricos estudados na disciplina em 
 
 ## 🤝 Equipe de Desenvolvimento
 
-| Nome do Aluno | GitHub |
+| Nome | GitHub |
 |---|---|
 | Cesar Augusto Jorge Cantoia | [@cesarcantoia27](https://github.com/cesarcantoia27) |
 | Felipe Ventura Cassiolato | [@Felpz0kkj](https://github.com/Felpz0kkj) |
